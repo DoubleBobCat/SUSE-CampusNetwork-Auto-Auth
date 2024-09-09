@@ -63,10 +63,11 @@ def get_info(ePortalUrl, userIndex):
 
 
 def login_main():
-    network_flag = check_network_activity(test_host)
-    if (network_flag == 1):
+    test_network_flag = check_network_activity(test_host)
+    entrance_network_flag = check_network_activity(entrance_host)
+    if (test_network_flag == 1):
         print(">INFO Already linked.")
-    elif (network_flag == 2):
+    elif (test_network_flag == 2) or (entrance_network_flag == 2):
         ePortalUrl_entrance = requests.get(entrance_host)
         ePortalUrl_main = ePortalUrl_entrance.text[32:-12]
         ePortalUrl = ePortalUrl_main[0:25]
@@ -104,7 +105,7 @@ if __name__ == "__main__":
     # init
     with open(config_json_file, 'r') as file:
         config_data = json.load(file)
-    handle_start = config_data['handle_start']
+    handle_start = int(config_data['handle_start'])
     loop_time = config_data['loop_time'].split(',')
     userId = config_data['userId']
     password = config_data['password']
